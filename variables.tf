@@ -6,3 +6,4 @@ variable "vpc_id" {}
 variable "tags" {}
 variable "sg_subnet_cidr" {}
 variable "allow_ssh_cidr" {}
+variable "zone_id" {}
