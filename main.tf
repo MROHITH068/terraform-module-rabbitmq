@@ -40,6 +40,11 @@ resource "aws_instance" "rabbitmq" {
   user_data = templatefile("${path.module}/userdata.sh",{
     env = var.env
   } )
+
+  root_block_device {
+    encrypted = true
+    kms_key_id = var.kms_key_id
+  }
 }
 
 resource "aws_route53_record" "rabbitmq" {
