@@ -38,7 +38,8 @@ resource "aws_instance" "rabbitmq" {
     Name = "${var.component}-${var.env}"
   }, var.tags)
   user_data = templatefile("${path.module}/userdata.sh",{
-    env = var.env
+    env = var.env,
+    component = var.component
   } )
 
   root_block_device {
