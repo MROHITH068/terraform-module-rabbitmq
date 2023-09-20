@@ -2,6 +2,7 @@ resource "aws_security_group" "sg" {
     name        = "${var.component}-${var.env}-sg"
     description = "${var.component}-${var.env}-sg"
     vpc_id = var.vpc_id
+
     ingress {
       from_port        = 5672
       to_port          = 5672
@@ -32,7 +33,7 @@ resource "aws_instance" "rabbitmq" {
   ami = data.aws_ami.ami.id
   instance_type = var.instance_type
   vpc_security_group_ids = [aws_security_group.sg.id]
-  iam_instance_profile = aws_iam_instance_profile.instance_profile.id
+  iam_instance_profile = aws_iam_instance_profile.instance_profile.name
   subnet_id = var.subnet_id
   tags = merge({
     Name = "${var.component}-${var.env}"
@@ -52,6 +53,6 @@ resource "aws_route53_record" "rabbitmq" {
   zone_id = var.zone_id
   name    = "${var.component}-${var.env}"
   type    = "A"
-  ttl     = 300
+  ttl     = 30
   records = [ aws_instance.rabbitmq.private_ip ]
 }
